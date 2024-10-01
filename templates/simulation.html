@@ -1,189 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Preventive Maintenance Simulation</title>
     <!-- Link to Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <style>
-        body {
-            background-color: #f8f9fa;
-        }
+      body {
+        background-color: #f8f9fa;
+      }
 
-        .topbar {
-            background-color: #007bff;
-            color: white;
-            padding: 10px;
-        }
+      .topbar {
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+      }
 
-        .sidebar {
-            background-color: #343a40;
-            color: white;
-            height: 100vh;
-        }
+      .sidebar {
+        background-color: #343a40;
+        color: white;
+        height: 100vh;
+      }
 
-        .sidebar a {
-            color: white;
-        }
+      .sidebar a {
+        color: white;
+      }
 
-        .sidebar a:hover {
-            background-color: #007bff;
-        }
+      .sidebar a:hover {
+        background-color: #007bff;
+      }
 
-        .main-content {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+      .main-content {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="d-flex">
-        <!-- Sidebar -->
-        <div class="sidebar p-3">
-            <h2>Menu</h2>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Settings</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Reports</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Help</a>
-                </li>
-            </ul>
+      <!-- Sidebar -->
+      <div class="sidebar p-3">
+        <h2>Menu</h2>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Reports</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Help</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="flex-grow-1">
+        <!-- Topbar -->
+        <div class="topbar d-flex justify-content-center align-items-center">
+          <h2>Smart System for Preventive Maintenance Report Using Internet of Things</h2>
         </div>
 
-        <div class="flex-grow-1">
-            <!-- Topbar -->
-            <div class="topbar d-flex justify-content-between align-items-center">
-                <h1>Preventive Maintenance Simulation</h1>
-            </div>
+        <div class="container mt-4 main-content">
+          <div class="d-flex justify-content-between mb-4">
+            <button id="startSimulation" class="btn btn-success">Start Simulation</button>
+            <button id="stopSimulation" class="btn btn-danger">Stop Simulation</button>
+          </div>
 
-            <div class="container mt-4 main-content">
-                <div class="d-flex justify-content-between mb-4">
-                    <button id="startSimulation" class="btn btn-success">Start Simulation</button>
-                    <button id="stopSimulation" class="btn btn-danger">Stop Simulation</button>
-                </div>
+          <div id="status" class="mb-4">
+            <h3>Status: <span id="simulationStatus">Not running</span></h3>
+            <p><strong>System Status:</strong> <span id="indicatorMeaningTop">N/A</span></p>
+          </div>
 
-                <div id="status" class="mb-4">
-                    <h3>Status: <span id="simulationStatus">Not running</span></h3>
-                    <p><strong>Meaning:</strong> <span id="indicatorMeaningTop">N/A</span></p>
-                </div>
-
-                <div id="parameterTable">
-                    <h3>Generated Data</h3>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Parameter</th>
-                                <th>Value</th>
-                                <th>Unit</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="dataBody">
-                            <!-- Random data will be injected here -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+          <div id="parameterTable">
+            <h3>Generated Data</h3>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Parameter</th>
+                  <th>Value</th>
+                  <th>Unit</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="dataBody">
+                <!-- Random data will be injected here -->
+              </tbody>
+            </table>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Indicator Meaning Modal -->
-    <div class="modal fade" id="indicatorModal" tabindex="-1" aria-labelledby="indicatorModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="indicatorModalLabel">Indicator Meaning</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p id="indicatorMeaning">Meaning will be displayed here.</p>
-                </div>
-            </div>
+    <div
+      class="modal fade"
+      id="indicatorModal"
+      tabindex="-1"
+      aria-labelledby="indicatorModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="indicatorModalLabel">Indicator Meaning</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p id="indicatorMeaning">Meaning will be displayed here.</p>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- JavaScript for handling the simulation and modal -->
     <script>
-        const indicatorMeanings = {
-            Y: "Implies a drop in the volume of product water, measured by the overall operation of the equipment.",
-            G: "Implies that the equipment is in continuously normal operating mode.",
-            PW: "Implies that product water is safe.",
-            LO: "Implies equipment has accumulated white flakes and can prevent proper back-flushing.",
-            R: "Implies overall impure water. The system shuts down intermittently.",
-            RO: "Implies low RW input or flow.",
-            RW: "Implies Raw water.",
-            BW: "Implies partially or unfiltered RW and low input membrane pressure.",
-            RN: "Implies no flow of RW or low input supply to the unit. Noisy booster pump.",
-            PH: "Implies hard product water.",
-            ST: "Implies unsafe Product water (No pure water).",
-            RST: "Implies a faulty high-pressure pump.",
-            D: "Implies dirty carbon filters."
-        };
+      const indicatorMeanings = {
+        Y: 'Implies a drop in the volume of product water, measured by the overall operation of the equipment.',
+        G: 'Implies that the equipment is in continuously normal operating mode.',
+        PW: 'Implies that product water is safe.',
+        LO: 'Implies equipment has accumulated white flakes and can prevent proper back-flushing.',
+        R: 'Implies overall impure water. The system shuts down intermittently.',
+        RO: 'Implies low RW input or flow.',
+        RW: 'Implies Raw water.',
+        BW: 'Implies partially or unfiltered RW and low input membrane pressure.',
+        RN: 'Implies no flow of RW or low input supply to the unit. Noisy booster pump.',
+        PH: 'Implies hard product water.',
+        ST: 'Implies unsafe Product water (No pure water).',
+        RST: 'Implies a faulty high-pressure pump.',
+        D: 'Implies dirty carbon filters.',
+      };
 
-        document.getElementById('startSimulation').addEventListener('click', function () {
-            fetch('/simulation/start', { method: 'POST' })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('simulationStatus').innerText = data.message;
-                    const status = data.status; // Get the status from the response
-                    document.getElementById('indicatorMeaningTop').innerText = indicatorMeanings[status] || "Meaning not found."; // Set meaning at the top
+      document.getElementById('startSimulation').addEventListener('click', function () {
+        fetch('/simulation/start', { method: 'POST' })
+          .then((response) => response.json())
+          .then((data) => {
+            document.getElementById('simulationStatus').innerText = data.message;
+            const status = data.status; // Get the status from the response
+            document.getElementById('indicatorMeaningTop').innerText =
+              indicatorMeanings[status] || 'Meaning not found.'; // Set meaning at the top
 
-                    // Clear previous data
-                    let dataBody = document.getElementById('dataBody');
-                    dataBody.innerHTML = '';
+            // Clear previous data
+            let dataBody = document.getElementById('dataBody');
+            dataBody.innerHTML = '';
 
-                    // Inject new random data
-                    data.data.forEach(item => {
-                        let row = `<tr>
+            // Inject new random data
+            data.data.forEach((item) => {
+              let row = `<tr>
                                     <td>${item.parameter}</td>
                                     <td>${item.value}</td>
                                     <td>${item.unit}</td>
                                     <td class="status" data-status="${status}">${status}</td>
                                   </tr>`;
-                        dataBody.insertAdjacentHTML('beforeend', row);
-                    });
+              dataBody.insertAdjacentHTML('beforeend', row);
+            });
 
-                    // Add click event to status cells
-                    document.querySelectorAll('.status').forEach(cell => {
-                        cell.addEventListener('click', function () {
-                            const status = cell.getAttribute('data-status');
-                            document.getElementById('indicatorMeaning').innerText = indicatorMeanings[status] || "Meaning not found.";
-                            const modal = new bootstrap.Modal(document.getElementById('indicatorModal'));
-                            modal.show();
-                        });
-                    });
-                })
-                .catch(error => console.error('Error:', error));
-        });
+            // Add click event to status cells
+            document.querySelectorAll('.status').forEach((cell) => {
+              cell.addEventListener('click', function () {
+                const status = cell.getAttribute('data-status');
+                document.getElementById('indicatorMeaning').innerText =
+                  indicatorMeanings[status] || 'Meaning not found.';
+                const modal = new bootstrap.Modal(document.getElementById('indicatorModal'));
+                modal.show();
+              });
+            });
+          })
+          .catch((error) => console.error('Error:', error));
+      });
 
-        document.getElementById('stopSimulation').addEventListener('click', function () {
-            fetch('/simulation/stop', { method: 'POST' })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('simulationStatus').innerText = data.message;
-                    // Clear the data table when stopping the simulation
-                    document.getElementById('dataBody').innerHTML = '';
-                    document.getElementById('indicatorMeaningTop').innerText = "N/A"; // Reset meaning on stop
-                })
-                .catch(error => console.error('Error:', error));
-        });
+      document.getElementById('stopSimulation').addEventListener('click', function () {
+        fetch('/simulation/stop', { method: 'POST' })
+          .then((response) => response.json())
+          .then((data) => {
+            document.getElementById('simulationStatus').innerText = data.message;
+            // Clear the data table when stopping the simulation
+            document.getElementById('dataBody').innerHTML = '';
+            document.getElementById('indicatorMeaningTop').innerText = 'N/A'; // Reset meaning on stop
+          })
+          .catch((error) => console.error('Error:', error));
+      });
     </script>
 
     <!-- Bootstrap JS Bundle (for modal functionality) -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-</body>
-
+  </body>
 </html>
